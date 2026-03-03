@@ -2,13 +2,13 @@
 
 ## Objective
 
-Validate detection rule functionality and investigate alert generation failures during controlled testing.
+Validate detection rule functionality and systematically investigate alert generation failures during controlled simulation.
 
 ---
 
 ## Scenario
 
-A behavior-based rule detecting Office spawning PowerShell was deployed but did not initially generate alerts.
+A behavior-based rule detecting Office spawning PowerShell was deployed but did not initially generate alerts despite visible matching events in Discover.
 
 ---
 
@@ -16,13 +16,14 @@ A behavior-based rule detecting Office spawning PowerShell was deployed but did 
 
 - Verified process event ingestion.
 - Confirmed ECS field mapping:
-  - process.name
-  - process.parent.name
-  - event.category
+  - `process.name`
+  - `process.parent.name`
+  - `event.category`
 - Validated correct dataset:
-  - logs-endpoint.events.process
-- Reviewed detection rule execution schedule.
-- Compared event timestamps with rule lookback configuration.
+  - `logs-endpoint.events.process`
+- Reviewed detection rule schedule (execution interval and additional lookback time).
+- Compared event `@timestamp` with rule execution window.
+- Confirmed ingestion latency impact.
 
 ---
 
@@ -30,7 +31,7 @@ A behavior-based rule detecting Office spawning PowerShell was deployed but did 
 
 Events were present in Elasticsearch but fell outside the configured rule lookback window.
 
-This resulted in a silent false-negative scenario.
+The detection rule execution interval did not align with the event generation time, resulting in a silent false-negative condition.
 
 ---
 
@@ -38,13 +39,29 @@ This resulted in a silent false-negative scenario.
 
 - Increased additional lookback time.
 - Adjusted rule execution interval.
-- Re-tested detection with controlled simulation.
-- Confirmed successful alert generation.
+- Re-tested detection using controlled simulation.
+- Confirmed alert generation in the Security alerts index.
+- Verified alert details matched expected parent-child process behavior.
+
+---
+
+## Challenges Faced
+
+- Initial assumption that rule logic was incorrect.
+- Overlooked operational configuration (scheduling vs logic).
+- Required careful timestamp comparison and rule execution review.
 
 ---
 
 ## Engineering Insight
 
-Detection reliability depends not only on correct logic but also on operational factors such as scheduling and ingestion latency.
+Detection reliability depends not only on correct query logic but also on operational configuration.
 
-Even correctly written rules can silently fail due to misconfigured time windows.
+Key operational factors include:
+
+- Rule scheduling interval
+- Ingestion latency
+- Time synchronization
+- Dataset alignment
+
+Operational misconfiguration can invalidate otherwise correct detection rules, leading to silent failures in production SOC environments.
