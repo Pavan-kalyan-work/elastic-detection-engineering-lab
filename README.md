@@ -1,10 +1,31 @@
 # Elastic Stack SOC Detection Engineering Lab
 
+> Hands-on SOC Detection Engineering case study built using Elastic Stack.  
+> Demonstrates telemetry validation, behavior-based detection development, alert debugging, dataset analysis, and infrastructure troubleshooting in a simulated enterprise environment.
+
 ## Overview
 
-This project documents an end-to-end SOC Detection Engineering lab built using the Elastic Stack.
+Designed and implemented an end-to-end SOC Detection Engineering lab using the Elastic Stack to simulate enterprise-grade endpoint monitoring.
 
-The lab simulates enterprise endpoint monitoring and demonstrates structured detection development, telemetry validation, alert debugging, dataset analysis, and infrastructure troubleshooting.
+The project focuses on structured telemetry validation, behavior-based detection logic, alert debugging, dataset-level analysis, and infrastructure troubleshooting.
+
+## Technical Skills Demonstrated
+
+- Elastic Stack (Elasticsearch, Kibana, Fleet, Elastic Defend)
+- Windows Event Log Analysis
+- ECS Field Validation
+- Detection Rule Development
+- MITRE ATT&CK Mapping
+- Alert Time-Window Debugging
+- Dataset Troubleshooting
+- Linux Network Configuration (Netplan)
+
+## Lab Environment
+
+- Ubuntu Server hosting Elasticsearch, Kibana, Fleet
+- Windows 10 endpoint with Elastic Agent
+- Elastic Defend enabled
+- Custom detection rules deployed and validated
 
 ---
 
@@ -57,4 +78,16 @@ Detailed documentation is available in the `documentation/` folder:
 
 ## Purpose
 
-This project demonstrates hands-on detection engineering capability beyond basic alert monitoring and reflects structured SOC-level investigation and troubleshooting thinking.
+This project demonstrates practical detection engineering capability, including rule development, operational validation, and troubleshooting beyond standard alert monitoring.
+
+It reflects hands-on SOC-level thinking rather than theoretical study.
+
+## Professional Outcome
+
+This project reflects readiness for:
+
+- SOC Analyst (L1) roles
+- Security Monitoring roles
+- Entry-level Detection Engineering exposure
+
+It demonstrates the ability to move beyond alert monitoring into structured detection development and troubleshooting.
