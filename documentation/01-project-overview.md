@@ -61,6 +61,15 @@ The project includes:
 
 ---
 
+## Real-World Challenges Simulated
+
+- Detection logic failing due to time-window misconfiguration
+- Dataset confusion between process and library events
+- Telemetry instability due to network configuration conflicts
+- Controlled attack simulation to validate detection reliability
+
+---
+
 ## MITRE ATT&CK Techniques Covered
 
 - T1059.001 – PowerShell
@@ -75,10 +84,11 @@ The project includes:
 
 This project demonstrates:
 
-- Detection engineering mindset
-- Operational troubleshooting capability
-- Dataset-level analysis awareness
-- Rule scheduling and time-window debugging
-- Structured SOC documentation practices
+- Practical detection engineering capability beyond basic alert monitoring
+- Structured rule development with MITRE ATT&CK alignment
+- Dataset-level troubleshooting and ECS field validation
+- Alert scheduling and time-window debugging awareness
+- Infrastructure-level issue identification impacting telemetry flow
+- SOC-level investigation thinking and escalation reasoning
 
-The lab reflects hands-on engineering work rather than theoretical study.
+The lab reflects hands-on engineering execution rather than theoretical study, simulating real-world challenges encountered in enterprise SOC environments.
