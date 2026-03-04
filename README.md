@@ -67,12 +67,55 @@ Detailed documentation is available in the `documentation/` folder:
 
 ---
 
-## Screenshots (To Be Added)
+---
 
-- Fleet Agent Healthy Status  
-- Detection Rule Configuration  
-- Triggered Alert View  
-- Discover Query Validation  
+## Detection Lab Screenshots
+
+### Fleet Agent Healthy
+
+Shows successful Elastic Agent enrollment and active communication with Fleet.
+
+![Fleet Agent Healthy](fleet-agent-healthy.png)
+
+---
+
+### Telemetry Validation in Discover
+
+Validates that endpoint telemetry is successfully ingested into Elasticsearch.
+
+![Telemetry Discover](telemetry-discover-view.png)
+
+---
+
+### Detection Rule Configuration
+
+Behavior-based detection identifying Microsoft Office spawning PowerShell.
+
+![Detection Rule Config](detection-rule-config.png)
+
+---
+
+### Detection Rule Logic
+
+Rule detecting abnormal parent-child process behavior.
+
+![Detection Rule](detection-rule-office-powershell.png)
+
+---
+
+### Alert Generation
+
+Demonstrates successful alert triggering during simulation testing.
+
+![Triggered Alert](triggered-alert.png)
+
+---
+
+### Alert Investigation View
+
+Alert details including host, user, and process context.
+
+![Alert Details](alert-office-powershell.png)  
 
 ---
 
