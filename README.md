@@ -1,5 +1,26 @@
 # Elastic Stack SOC Detection Engineering Lab
 
+## SOC Detection Pipeline Architecture
+
+---
+Windows Endpoint
+│
+▼
+Elastic Agent
+│
+▼
+Fleet Server
+│
+▼
+Elasticsearch
+│
+▼
+Kibana (Detection Engine)
+│
+▼
+Security Alerts
+---
+
 > Hands-on SOC Detection Engineering case study built using Elastic Stack.  
 > Demonstrates telemetry validation, behavior-based detection development, alert debugging, dataset analysis, and infrastructure troubleshooting in a simulated enterprise environment.
 
@@ -132,3 +153,75 @@ This project reflects readiness for:
 - Entry-level Detection Engineering exposure
 
 It demonstrates the ability to move beyond alert monitoring into structured detection development and troubleshooting.
+
+---
+
+## SOC Investigation Walkthrough
+
+### Scenario
+
+A detection rule was designed to identify suspicious behavior where Microsoft Office applications spawn PowerShell processes.
+
+This behavior is commonly associated with:
+
+- Malicious Office macros
+- Phishing payload execution
+- Initial access techniques used by adversaries
+
+---
+
+### Investigation Process
+
+1. Confirmed endpoint telemetry ingestion through Fleet.
+2. Verified process events in Kibana Discover.
+3. Observed parent-child relationship:
+
+   - Parent process: `WINWORD.EXE`
+   - Child process: `powershell.exe`
+
+4. Validated ECS fields:
+
+   - `process.name`
+   - `process.parent.name`
+   - `event.category`
+
+5. Confirmed dataset used by the detection rule:
+
+Dataset
+```
+logs-endpoint.events.process
+```
+
+Index Pattern
+```
+logs-endpoint.events.*
+```
+
+6. Reviewed detection rule schedule and lookback configuration.
+
+---
+
+### Detection Outcome
+
+The rule successfully triggered when PowerShell was executed from an Office process.
+
+Alert context confirmed:
+
+- Host
+- User
+- Parent process
+- Child process
+- Timestamp
+
+---
+
+### Analyst Conclusion
+
+This behavior may indicate macro-based malware execution or malicious document activity.
+
+Further investigation steps in a real SOC environment would include:
+
+- Reviewing the PowerShell command line
+- Inspecting script block logs (Event ID 4104)
+- Checking file hashes and reputation
+- Investigating user activity timeline
