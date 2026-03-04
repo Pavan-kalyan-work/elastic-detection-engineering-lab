@@ -99,16 +99,14 @@ Behavior-based detection identifying Microsoft Office spawning PowerShell.
 
 Rule detecting abnormal parent-child process behavior.
 
-![Detection Rule](detection-rule-office-powershell.png)
-
+![Detection Rule](detection-rule-office-powershell.png.png)
 ---
 
 ### Alert Generation
 
 Demonstrates successful alert triggering during simulation testing.
 
-![Triggered Alert](triggered-alert.png)
-
+![Triggered Alert](triggered-alert.png.png)
 ---
 
 ### Alert Investigation View
