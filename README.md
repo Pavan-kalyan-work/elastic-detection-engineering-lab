@@ -225,3 +225,11 @@ Further investigation steps in a real SOC environment would include:
 - Inspecting script block logs (Event ID 4104)
 - Checking file hashes and reputation
 - Investigating user activity timeline
+
+- ---
+
+## 🧪 SOC Investigation Reports
+
+Hands-on alert investigation scenarios demonstrating SOC analyst workflow, log analysis, and incident reasoning.
+
+- [Suspicious PowerShell Encoded Execution](investigations/01-powershell-encoded-command.md)
