@@ -233,3 +233,4 @@ Further investigation steps in a real SOC environment would include:
 Hands-on alert investigation scenarios demonstrating SOC analyst workflow, log analysis, and incident reasoning.
 
 - [Suspicious PowerShell Encoded Execution](investigations/01-powershell-encoded-command.md)
+- [Brute Force Login Attempt Detection](investigations/02-brute-force-login.md)
