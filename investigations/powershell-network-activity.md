@@ -140,7 +140,7 @@ Benign Activity → Expected Behavior in Controlled Lab Environment
 - Verify domain reputation  
 - Monitor frequency of connections  
 - Check for encoded or obfuscated PowerShell commands  
-- Correlate with additional suspicious behavior  
+- Correlate with additional suspicious behavior
 
 ---
 
