@@ -6,37 +6,36 @@ This report documents a simulated SOC investigation identifying potential brute 
 
 ## 📌 Summary
 
-A potential brute force attack was detected based on multiple failed login attempts (Event ID 4625) targeting a single user account within a short time window. The activity was identified using a threshold-based detection rule in Elastic SIEM.
+A potential brute force attack was detected based on multiple failed login attempts (Event ID **4625**) targeting a single user account within a short time window. The activity was identified using a threshold-based detection rule in Elastic SIEM.
 
 ---
 
 ## 🖥️ Environment
 
-- **SIEM:** Elastic Stack (Elasticsearch, Kibana, Fleet, Elastic Defend)
-- **Endpoint:** Windows 10 Virtual Machine
-- **User:** kalyan
-- **Host:** desktop-qucd21v
+* **SIEM:** Elastic Stack (Elasticsearch, Kibana, Fleet, Elastic Defend)
+* **Endpoint:** Windows 10 Virtual Machine
+* **User:** kalyan
+* **Host:** desktop-qucd21v
 
 ---
 
 ## 🚨 Detection Details
 
-### 🔹 Rule Name:
+### 🔹 Rule Name
+
 **Brute Force Login Detection**
 
-### 🔹 Detection Logic:
+### 🔹 Detection Logic
 
-```
-event.code: 4625 and event.category: authentication
+```kql id="bf1"
+event.code: 4625 AND event.category: authentication
 ```
 
-### 🔹 Threshold Configuration:
+### 🔹 Threshold Configuration
 
-```
-Group by: user.name  
-Threshold: ≥ 5 attempts  
-Time window: 5 minutes
-```
+* **Group by:** `user.name`
+* **Threshold:** ≥ 5 attempts
+* **Time window:** 5 minutes
 
 ---
 
@@ -46,7 +45,7 @@ Time window: 5 minutes
 
 Filtered authentication logs using:
 
-```
+```kql id="bf2"
 event.code: 4625
 ```
 
@@ -56,18 +55,18 @@ Observed multiple failed login attempts.
 
 ### 2. Key Fields Identified
 
-- **user.name:** kalyan
-- **host.name:** desktop-qucd21v
-- **event.outcome:** failure
-- **event.code:** 4625
+* **user.name:** kalyan
+* **host.name:** desktop-qucd21v
+* **event.outcome:** failure
+* **event.code:** 4625
 
 ---
 
 ### 3. Pattern Identification
 
-- Total failed attempts: **5+**
-- Time window: **~2 minutes**
-- Same user targeted repeatedly
+* Total failed attempts: **5+**
+* Time window: **~2 minutes**
+* Same user targeted repeatedly
 
 ---
 
@@ -75,12 +74,12 @@ Observed multiple failed login attempts.
 
 ### 🔹 Observed Behavior
 
-- Multiple failed login attempts for the same user within a short time frame
+Multiple failed login attempts for the same user within a short time frame.
 
 ### 🔹 Interpretation
 
-- Repeated password guessing activity  
-- Consistent with brute force attack pattern  
+* Repeated password guessing activity
+* Consistent with brute force attack pattern
 
 Brute force attacks are commonly used by attackers to gain unauthorized access by systematically guessing passwords, often targeting exposed services such as RDP or SSH.
 
@@ -88,12 +87,12 @@ Brute force attacks are commonly used by attackers to gain unauthorized access b
 
 ## ⏱️ Timeline Reconstruction
 
-```
-1. User account "kalyan" targeted  
-2. Multiple failed login attempts recorded (Event ID 4625)  
-3. Attempts occurred within ~2 minutes  
-4. Threshold exceeded (≥5 attempts)  
-5. Detection rule triggered alert  
+```text id="bf3"
+1. User account "kalyan" targeted
+2. Multiple failed login attempts recorded (Event ID 4625)
+3. Attempts occurred within ~2 minutes
+4. Threshold exceeded (≥5 attempts)
+5. Detection rule triggered alert
 ```
 
 ---
@@ -102,26 +101,26 @@ Brute force attacks are commonly used by attackers to gain unauthorized access b
 
 ### 🔹 Indicators of Suspicious Activity
 
-- High frequency of failed login attempts  
-- Single user account targeted  
-- Short time interval between attempts  
+* High frequency of failed login attempts
+* Single user account targeted
+* Short time interval between attempts
 
 ### 🔹 Context Consideration
 
-- Could be user error (forgot password)  
-- Could be automated brute force attempt  
+* Could be user error (forgot password)
+* Could be automated brute force attempt
 
 ---
 
 ## 🧭 MITRE ATT&CK Mapping
 
-- T1110 – Brute Force  
+* **T1110** – Brute Force
 
 ---
 
 ## 🧾 Final Classification
 
-```
+```text id="bf4"
 Suspicious Activity → Potential Brute Force Attack Pattern (Requires Validation)
 ```
 
@@ -129,24 +128,50 @@ Suspicious Activity → Potential Brute Force Attack Pattern (Requires Validatio
 
 ## 🚀 SOC Analyst Decision
 
-- **Severity:** Medium  
-- **Action Taken:** Escalated for further validation  
+* **Severity:** Medium
+* **Action Taken:** Escalated for further validation
 
-### 🔹 Recommended Actions:
+### 🔹 Recommended Actions
 
-- Verify with user if login attempts were legitimate  
-- Check source of login attempts (local vs remote)  
-- Monitor for successful login (Event ID 4624)  
-- Investigate for repeated patterns or multiple users targeted  
+* Verify with user if login attempts were legitimate
+* Check source of login attempts (local vs remote)
+* Monitor for successful login (**Event ID 4624**)
+* Investigate repeated patterns or multiple users targeted
 
 ---
 
 ## 🧠 Key Learnings
 
-- Event ID **4625** is critical for detecting failed authentication attempts  
-- Threshold-based rules help identify attack patterns  
-- Context is required to distinguish false positives from real attacks  
-- ECS mapping enables consistent querying (`user.name`, `event.code`)  
+* Event ID **4625** is critical for detecting failed authentication attempts
+* Threshold-based rules help identify attack patterns
+* Context is required to distinguish false positives from real attacks
+* ECS mapping enables consistent querying (`user.name`, `event.code`)
+
+---
+
+# 📸 Evidence
+
+## Alert Dashboard
+
+![Alert Dashboard](../screenshots/investigations/bruteforce-alert-dashboard.png)
+
+---
+
+## Failed Login Logs
+
+![Failed Login Logs](../screenshots/investigations/bruteforce-logs.png)
+
+---
+
+## Alert Details
+
+![Alert Details](../screenshots/investigations/bruteforce-alert-details.png)
+
+---
+
+## Threshold Rule Trigger
+
+![Threshold Rule Trigger](../screenshots/investigations/bruteforce-threshold.png)
 
 ---
 
