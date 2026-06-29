@@ -21,23 +21,25 @@ A suspicious PowerShell execution was detected involving an encoded command usin
 
 ## 🚨 Detection Details
 
-### 🔹 Alert 1:
+### 🔹 Alert 1
 
-**Rule Name:** Suspicious PowerShell Encoded Command  
+**Rule Name:** Suspicious PowerShell Encoded Command
+
 **Detection Logic:**
 
-```
+```kql
 process.name: "powershell.exe" AND process.args: "-enc"
 ```
 
-### 🔹 Alert 2:
+### 🔹 Alert 2
 
-**Rule Name:** Suspicious PowerShell Script Execution (4104)  
-**Detection Logic:**  
+**Rule Name:** Suspicious PowerShell Script Execution (4104)
+
+**Detection Logic:**
 Detection of PowerShell Script Block Logging containing suspicious keywords such as:
 
-- Invoke-Expression (IEX)  
-- DownloadString  
+* `Invoke-Expression (IEX)`
+* `DownloadString`
 
 ---
 
@@ -45,13 +47,13 @@ Detection of PowerShell Script Block Logging containing suspicious keywords such
 
 ### 1. Process Analysis
 
-- **Process:** powershell.exe  
-- **Parent Process:** powershell.exe  
-- **User:** kalyan  
+* **Process:** powershell.exe
+* **Parent Process:** powershell.exe
+* **User:** kalyan
 
 **Command Executed:**
 
-```
+```powershell
 powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkA
 ```
 
@@ -59,11 +61,11 @@ powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBi
 
 ### 2. Decoding the Command
 
-The Base64 encoded command was decoded using PowerShell/CyberChef.
+The Base64 encoded command was decoded using PowerShell / CyberChef.
 
 **Decoded Output:**
 
-```
+```powershell
 IEX (New-Object Net.WebClient)
 ```
 
@@ -73,39 +75,39 @@ IEX (New-Object Net.WebClient)
 
 #### 🔹 Process Behavior
 
-- PowerShell executed with encoded command  
-- Indicates obfuscation attempt  
+* PowerShell executed with encoded command
+* Indicates obfuscation attempt
 
 #### 🔹 File Activity
 
-- Temporary files created and deleted:
+Temporary files created and deleted:
 
-```
+```text
 C:\Users\kalyan\AppData\Local\Temp\__PSScriptPolicyTest_*
 ```
 
-- Indicates script execution and execution policy checks  
+* Indicates script execution and execution policy checks
 
 #### 🔹 Library Activity
 
-- Multiple DLLs loaded during execution  
-- Normal behavior for process execution  
+* Multiple DLLs loaded during execution
+* Normal behavior for process execution
 
 #### 🔹 Network Activity
 
-- No outbound network connections observed  
-- Indicates no payload download occurred in this instance  
+* No outbound network connections observed
+* Indicates no payload download occurred in this instance
 
 ---
 
 ### 4. Timeline Reconstruction
 
-```
-1. PowerShell process started  
-2. Encoded command executed (-enc)  
-3. Script activity triggered (temporary file creation/deletion)  
-4. Libraries loaded during execution  
-5. Process terminated  
+```text
+1. PowerShell process started
+2. Encoded command executed (-enc)
+3. Script activity triggered (temporary file creation/deletion)
+4. Libraries loaded during execution
+5. Process terminated
 ```
 
 ---
@@ -114,33 +116,35 @@ C:\Users\kalyan\AppData\Local\Temp\__PSScriptPolicyTest_*
 
 ### 🔹 Indicators of Suspicious Behavior
 
-- Use of `-enc` (Base64 encoding)  
-- Presence of `Invoke-Expression (IEX)`  
-- Use of `Net.WebClient`  
+* Use of `-enc` (Base64 encoding)
+* Presence of `Invoke-Expression (IEX)`
+* Use of `Net.WebClient`
 
 Use of `Net.WebClient` is commonly associated with downloading payloads from attacker-controlled servers during initial access or post-exploitation phases.
 
 From an analyst perspective, the combination of encoded PowerShell execution and IEX usage significantly increases the likelihood of malicious intent, even in the absence of network activity.
 
+---
+
 ### 🔹 Context Evaluation
 
-- Activity performed in controlled lab environment  
-- No external network communication observed  
-- No persistence mechanisms detected  
+* Activity performed in controlled lab environment
+* No external network communication observed
+* No persistence mechanisms detected
 
 ---
 
 ## 🧭 MITRE ATT&CK Mapping
 
-- T1059.001 – PowerShell  
-- T1027 – Obfuscated/Encoded Files or Information  
-- T1105 – Ingress Tool Transfer (potential via WebClient)  
+* **T1059.001** – PowerShell
+* **T1027** – Obfuscated/Encoded Files or Information
+* **T1105** – Ingress Tool Transfer (potential via WebClient)
 
 ---
 
 ## ⚖️ Final Classification
 
-```
+```text
 Suspicious Behavior → Malicious Execution Pattern (Validated in Controlled Lab Environment)
 ```
 
@@ -148,24 +152,50 @@ Suspicious Behavior → Malicious Execution Pattern (Validated in Controlled Lab
 
 ## 🚀 SOC Analyst Decision
 
-- **Severity:** High  
-- **Action Taken:** Escalated to Tier 2 / Incident Response team  
+* **Severity:** High
+* **Action Taken:** Escalated to Tier 2 / Incident Response team
 
-**Recommended Actions:**
+### Recommended Actions
 
-- Decode and analyze full payload  
-- Check for persistence mechanisms  
-- Investigate lateral movement  
-- Monitor for repeated behavior  
+* Decode and analyze full payload
+* Check for persistence mechanisms
+* Investigate lateral movement
+* Monitor for repeated behavior
 
 ---
 
 ## 🧠 Key Learnings
 
-- Detection requires both behavior-based and content-based analysis  
-- Encoded PowerShell commands are strong indicators but require context  
-- Process correlation using `process.entity_id` is critical  
-- Not all suspicious behavior is malicious — validation is essential  
+* Detection requires both behavior-based and content-based analysis
+* Encoded PowerShell commands are strong indicators but require context
+* Process correlation using `process.entity_id` is critical
+* Not all suspicious behavior is malicious — validation is essential
+
+---
+
+# 📸 Evidence
+
+## Encoded PowerShell Alert
+
+![Encoded PowerShell Alert](../screenshots/investigations/powershell-encoded-alert.png)
+
+---
+
+## Process Execution Logs
+
+![Process Logs](../screenshots/investigations/powershell-encoded-logs.png)
+
+---
+
+## Analyzer Graph
+
+![Analyzer Graph](../screenshots/investigations/powershell-encoded-analyzer.png)
+
+---
+
+## Decoded Payload Validation
+
+![Decoded Payload](../screenshots/investigations/powershell-decoded-payload.png)
 
 ---
 
